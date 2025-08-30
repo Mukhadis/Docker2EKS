@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Favourite Songs</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f4f4f9; padding: 20px; }
+        h1 { color: #333; }
+        ul { list-style-type: none; padding: 0; }
+        li { background: #fff; margin: 10px 0; padding: 15px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+    </style>
+</head>
+<body>
+    <h1>🎵 Here are my favourite songs, since I do not get asked this in the interview 😅</h1>
+    <ul>
+        {% for song in songs %}
+            <li><strong>{{ song.title }}</strong> — {{ song.artist }} {% if song.album %} ({{ song.album }}) {% endif %}</li>
+        {% empty %}
+            <li>No songs yet!</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
