@@ -1,0 +1,8 @@
+name: deploy
+on: push
+jobs:
+  deployment:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name:
