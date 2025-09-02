@@ -16,7 +16,7 @@ module "eks" {
   subnet_ids = module.vpc.private_subnets
 
   tags = {
-    Environment = "dev"
-    Terraform   = "true"
+    Name : "DevOpsProject0-EKS"
+    CreationDate : "${formatdate("YYYY-MM-DD", timestamp())}"
   }
 }
