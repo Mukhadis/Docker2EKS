@@ -26,7 +26,7 @@ jobs:
       - name: Build, tag, and push image to Amazon ECR
         run: |
           # Build the Docker image
-          IMAGE_URI="${{ steps.login-ecr.outputs.registry }}/my-web-app:latest"
+          IMAGE_URI="${{ steps.login-ecr.outputs.registry }}/backend-repo"
           docker build -t $IMAGE_URI ./ProjectWebApp
           docker push $IMAGE_URI
           echo "Code has been pushed to ECR repository: $IMAGE_URI"
@@ -39,6 +39,6 @@ jobs:
       # Deploy to EKS
       - name: Deploy to EKS
         run: |
-          kubectl set image deployment/my-web-app my-web-app=$IMAGE_URI
-          kubectl rollout status deployment/my-web-app
+          kubectl set image deployment/backend-repo backend-repo=$IMAGE_URI
+          kubectl rollout status deployment/backend-repo
           echo "Deployment to EKS completed successfully."
