@@ -2,8 +2,12 @@ name: Build and Deploy to EKS
 on: [push, workflow_dispatch]
 
 env:
-  AWS_DEFAULT_REGION: eu-west-1
+  AWS_DEFAULT_REGION: ${{ secrets.AWS_REGION || 'eu-west-1' }}
   EKS_NAMESPACE: backend-app
+
+permissions:
+  contents: read
+  id-token: write  # Required for OIDC
 
 jobs:
   build-and-deploy:
@@ -21,6 +25,16 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
+          role-duration-seconds: 3600
+
+      # Verify AWS setup
+      - name: Verify AWS configuration
+        run: |
+          echo "AWS CLI version:"
+          aws --version
+          echo "Current AWS identity:"
+          aws sts get-caller-identity
+          echo "AWS region: $(aws configure get region)"
 
       # Install kubectl
       - name: Install kubectl
@@ -52,11 +66,31 @@ jobs:
       # Configure kubectl for EKS
       - name: Configure kubectl for EKS
         run: |
-          aws eks update-kubeconfig --region ${{ secrets.AWS_REGION }} --name ${{ secrets.EKS_CLUSTER_NAME }}
-
-          # Verify connection
+          echo "Configuring kubectl for EKS cluster: ${{ secrets.EKS_CLUSTER_NAME }}"
+          echo "Using AWS region: ${{ secrets.AWS_REGION }}"
+          
+          # Verify AWS credentials are working
+          echo "Verifying AWS credentials..."
+          aws sts get-caller-identity
+          
+          # Update kubeconfig
+          aws eks update-kubeconfig --region ${{ secrets.AWS_REGION }} --name ${{ secrets.EKS_CLUSTER_NAME }} --verbose
+          
+          # Debug kubectl config
+          echo "Current kubectl context:"
+          kubectl config current-context
+          echo "Available contexts:"
+          kubectl config get-contexts
+          
+          # Verify connection with detailed error output
           echo "Testing kubectl connection..."
-          kubectl get nodes
+          if ! kubectl get nodes; then
+            echo "ERROR: Failed to connect to EKS cluster"
+            echo "Debugging kubectl configuration..."
+            kubectl config view --minify
+            exit 1
+          fi
+          
           kubectl get namespaces
 
       # Create namespace if it doesn't exist
