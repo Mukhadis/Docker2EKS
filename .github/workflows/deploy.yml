@@ -29,6 +29,7 @@ jobs:
           IMAGE_URI="${{ steps.login-ecr.outputs.registry }}/backend-repo"
           docker build -t $IMAGE_URI ./ProjectWebApp
           docker push $IMAGE_URI
+          echo "IMAGE_URI=$IMAGE_URI" >> $GITHUB_ENV
           echo "Code has been pushed to ECR repository: $IMAGE_URI"
 
       # Update the Kubernetes deployment to use the new image
