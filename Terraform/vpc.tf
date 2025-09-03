@@ -1,17 +1,10 @@
-provider "aws" {
-  region = local.region
-}
+resource "aws_vpc" "main" {
+  cidr_block = "10.0.0.0/16"
 
-module "vpc" {
-  source  = "terraform-aws-modules/vpc/aws"
-  version = "6.0.1"
+  enable_dns_hostnames = true
+  enable_dns_support   = true
 
-  name = local.name
-  cidr = local.vpc_cidr
-
-  azs             = local.azs
-  private_subnets = local.private_subnets
-  public_subnets  = local.public_subnets
-
-  enable_nat_gateway = true
+  tags = {
+    Name = "${local.name}-vpc"
+  }
 }

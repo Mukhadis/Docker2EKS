@@ -1,15 +1,12 @@
 locals {
-  name   = "my-web-app"
-  region = "us-east-1"
+  name        = "Project"
+  region      = "us-east-1"
+  zone1       = "us-east-1a"
+  zone2       = "us-east-1b"
+  env         = "dev"
+  eks_name    = "${local.name}-eks"
+  eks_version = "1.33"
 
-  vpc_cidr = "10.0.0.0/16"
-  azs      = ["us-east-1a", "us-east-1b", ]
 
-  public_subnets  = ["10.0.0.0/24", "10.0.1.0/24"]
-  private_subnets = ["10.0.2.0/24", "10.0.3.0/24"]
-
-  tags = {
-    Name         = local.name
-    CreationDate = "${formatdate("YYYY-MM-DD", timestamp())}"
-  }
 }
+
