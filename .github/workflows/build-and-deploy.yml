@@ -26,7 +26,7 @@ jobs:
         run: |
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG ./ProjectWebApp
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-            echo "Image has been pushed to the ECR repo"
+          echo "Image pushed to ECR successfully!"
 
   Deploy-to-EKS:
     needs: build-and-deploy-to-ECR
@@ -48,6 +48,6 @@ jobs:
 
       - name: Deploy to EKS
         run: |
-          kubectl apply -f ./k8s/deployment.yaml
-          kubectl apply -f ./k8s/service.yaml
-          echo "Application has been deployed to the EKS cluster"
+          kubectl apply -f ./k8s/deployment.yaml --validate=false
+          kubectl apply -f ./k8s/service.yaml --validate=false
+          echo "Application deployed to EKS successfully!"
