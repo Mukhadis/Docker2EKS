@@ -42,12 +42,25 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
 
-      - name: Update kubeconfig
+      - name: Install kubectl
         run: |
+          curl -LO "https://dl.k8s.io/release/v1.28.0/bin/linux/amd64/kubectl"
+          chmod +x kubectl
+          sudo mv kubectl /usr/local/bin/
+          kubectl version --client
+
+      - name: Setup Kubernetes credentials
+        run: |
+          # Update kubeconfig to authenticate with EKS cluster
           aws eks update-kubeconfig --name ${{ secrets.EKS_CLUSTER_NAME }} --region ${{ secrets.AWS_REGION }}
+          
+          # Verify authentication works
+          kubectl cluster-info
+          kubectl get nodes
 
       - name: Deploy to EKS
         run: |
-          kubectl apply -f ./k8s/deployment.yaml --validate=false
-          kubectl apply -f ./k8s/service.yaml --validate=false
+          # Deploy with proper validation now that we have valid credentials
+          kubectl apply -f ./k8s/deployment.yaml
+          kubectl apply -f ./k8s/service.yaml
           echo "Application deployed to EKS successfully!"
