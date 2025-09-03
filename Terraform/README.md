@@ -1,10 +1,4 @@
-Within this directory you will find the terrafrom code to do the following:
+Within this directory you will find the terrafrom files used to deploy all the necessary AWS infrastructure:
 
-vpc.tf:
-This terraform file creates the virtual private cloud on AWS that will have the EKS cluster within it. It consists of a private subnet that will hace the EKS fargate pods deployed too and a public subnet that holds a NAT gateway which allows the pods to download containers from DockerHub
-
-eks.tf:
-This terraform file creates and EKS cluster in fargate mode. This simplifies the configuration for what is a small webapp that does not require a lot of resources which may incur higher charges.
-
-variables.tf
-This file just holds the variables required in both the vpc and eks files.
+vpc.tf
+This file creates the VPC within the us-east-1 region. The VPC is enabled to resolve DNS names. This is crucial for runnning containers.
