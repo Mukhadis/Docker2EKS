@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: Project
+  name: project
   labels:
-    app: Project
+    app: project
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: Project
+      app: project
   template:
     metadata:
       labels:
-        app: Project
+        app: project
     spec:
       containers:
-        - name: Project-container
+        - name: project-container
           image: 089042446418.dkr.ecr.us-east-1.amazonaws.com/backend-repo:latest
           ports:
             - containerPort: 8000
