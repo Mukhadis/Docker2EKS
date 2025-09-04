@@ -32,3 +32,8 @@ Application Load Balancer for external traffic distribution
 NAT Gateway for outbound-only internet access from private workloads
 Automated CI/CD pipeline with GitHub Actions
 Declarative infrastructure management with Terraform
+
+![image alt](https://github.com/Mukhadis/DevOpsProject/blob/main/ProjectDiagram.png?raw=true)
+
+Mukhadis Yaru – Aspiring Cloud/ DevOps Engineer
+LinkedIn: https://www.linkedin.com/in/mukhadis-yaru/
