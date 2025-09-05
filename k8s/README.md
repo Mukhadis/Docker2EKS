@@ -8,3 +8,6 @@ This defines stable networking and load balancing to the pods. This provisions a
 
 ingress.yaml
 Not necessary for the scope of the project thus far but a good to have when routing external HTTP(s) traffic. The ALB will be publicly accessible targeting the pods IP address. The ALB will be listening on port 80. It will route all HTTP traffic to project-service:80
+
+scaling.yaml
+This defines the horizontal pod autoscaler. Using the nodes CPU utilization as the metric. Once the utilization reaches 70% another replica will be deployed.
