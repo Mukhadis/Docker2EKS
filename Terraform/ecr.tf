@@ -1,5 +1,6 @@
 resource "aws_ecr_repository" "repo" {
-  name = "backend-repo"
+  name         = "backend-repo"
+  force_delete = true
 }
 
 data "aws_iam_policy_document" "ecr_policy" {
