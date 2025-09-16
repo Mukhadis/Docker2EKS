@@ -26,7 +26,7 @@ GitHub Actions: CI/CD pipeline automation
 
 ## ⚡ Features
 
-High availability across two Availability Zones
+High availability across two Availability zones
 Secure networking with private subnets for workloads
 Application Load Balancer for external traffic distribution
 NAT Gateway for outbound-only internet access from private workloads
